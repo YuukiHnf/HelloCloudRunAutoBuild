@@ -1,28 +1,31 @@
 steps:
+  # Build Image = docker build -t gcr.io/${PROJECT_ID}/node-image:latest
   - name: "gcr.io/cloud-builders/docker"
     id: "build-docker-image-from-dockerfile"
     args:
       - "build"
       - "-t"
-      - "gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$SHORT_SHA"
+      - "gcr.io/mycloudrunproject-348105/hello-cloudrun:$SHORT_SHA"
       - "."
+  #Push image to GCR
   - name: "gcr.io/cloud-builders/docker"
     id: "push-docker-image-to-gcr"
     args:
       - "push"
-      - "gcr.io/$PROJECT_ID/${_SERVICE_NAME}"
+      - "gcr.io/mycloudrunproject-348105/hello-cloudrun"
   - name: "gcr.io/cloud-builders/gcloud"
     id: "deploy-cloud-run"
     args:
       - "run"
       - "deploy"
-      - "${_SERVICE_NAME}"
+      - "hello-cloudrun"
       - "--image"
-      - "gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$SHORT_SHA"
+      - "gcr.io/mycloudrunproject-348105/hello-cloudrun:$SHORT_SHA"
       - "--platform"
       - "managed"
       - "--region"
-      - "us-central1"
+      - "asia-northeast1"
+      - "-allow"
 substitutions:
   _REGION: us-central1
   _SERVICE_NAME: hellocloudrun
