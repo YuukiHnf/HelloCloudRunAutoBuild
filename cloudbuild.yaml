@@ -25,4 +25,4 @@ steps:
       - "us-central1"
 substitutions:
   _REGION: us-central1
-  _SERVICE_NAME: helloworld
+  _SERVICE_NAME: hellocloudrun
